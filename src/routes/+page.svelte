@@ -43,9 +43,9 @@
         <div {...card.root('overflow-auto max-w-full')}>
             <h2 {...card.title()}>Turtles</h2>
             {#each turtles ?? [] as turtle}
-                <div class="flex flex-row space-between p-2">
+                <div class="flex flex-row justify-between p-2">
                     <p>{turtle[0]}</p>
-                    <p class="text-gray-800">{turtle[1]}</p>
+                    <p class="text-gray-700">{turtle[1]}</p>
                 </div>
             {/each}
         </div>
