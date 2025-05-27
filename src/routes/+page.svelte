@@ -5,7 +5,7 @@
     import { onMount } from "svelte";
 
     let access = $state<AccessInfo>();
-    let turtles = $state<string[]>();
+    let turtles = $state<[string, number][]>();
 
     onMount(async () => {
         try {
@@ -34,7 +34,7 @@
             location.reload()
         }
 
-        turtles = (await client.query('select turtle_id from unique_turtles', [])).values.map(v => v[0] as string)
+        turtles = (await client.query('select turtle_id, turtle_occurrences from unique_turtles', [])).values as [string, number][]
     });
 </script>
 
@@ -43,7 +43,10 @@
         <div {...card.root('overflow-auto max-w-full')}>
             <h2 {...card.title()}>Turtles</h2>
             {#each turtles ?? [] as turtle}
-                <p>{turtle}</p>
+                <div class="flex flex-row space-between p-2">
+                    <p>{turtle[0]}</p>
+                    <p class="text-gray-800">{turtle[1]}</p>
+                </div>
             {/each}
         </div>
     {/if}
