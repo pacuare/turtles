@@ -1,9 +1,11 @@
 <script lang="ts">
     import { type AccessInfo, getAccess } from "$lib/api/auth";
     import { client } from "$lib/api/client";
+    import { card } from "@pacuare/design";
     import { onMount } from "svelte";
 
     let access = $state<AccessInfo>();
+    let turtles = $state<string[]>();
 
     onMount(async () => {
         try {
@@ -31,11 +33,18 @@
             );
             location.reload()
         }
+
+        turtles = (await client.query('select turtle_id from unique_turtles', [])).values.map(v => v[0] as string)
     });
 </script>
 
-<main class="w-full h-full flex flex-row">
+<main class="w-screen h-screen flex flex-row p-3 gap-3">
     {#if access}
-        Hello, {access.email}!
+        <div {...card.root('overflow-auto max-w-full')}>
+            <h2 {...card.title()}>Turtles</h2>
+            {#each turtles ?? [] as turtle}
+                <p>{turtle}</p>
+            {/each}
+        </div>
     {/if}
 </main>
