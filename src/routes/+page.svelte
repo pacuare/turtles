@@ -34,7 +34,7 @@
             location.reload()
         }
 
-        turtles = (await client.query('select turtle_id, turtle_occurrences from unique_turtles', [])).values as [string, number][]
+        turtles = (await client.query('select turtle_id, turtle_occurrences from unique_turtles order by turtle_occurrences::int32 desc', [])).values as [string, number][]
     });
 </script>
 
