@@ -11,27 +11,7 @@
         try {
             access = await getAccess();
         } catch (_) {
-            const email = prompt("Email?")!;
-            if (!email) location.reload();
-            await client.call(
-                `/auth/verify?email=${encodeURIComponent(email)}`,
-            );
-            const code = prompt(
-                "Please enter the six-digit code sent to your email.",
-                "",
-            )!;
-            await client.call(
-                `/auth/verify?email=${encodeURIComponent(email)}`,
-                {
-                    method: "POST",
-                    body: (() => {
-                        const f = new FormData();
-                        f.append("code", code);
-                        return f;
-                    })(),
-                },
-            );
-            location.reload()
+            location.assign(import.meta.env.VITE_PUBLIC_LOGIN_URL ?? 'https://app.pacuare.dev/login');
         }
 
         turtles = (await client.query('select turtle_id, turtle_occurrences from unique_turtles order by turtle_occurrences::int desc', [])).values as [string, number][]
